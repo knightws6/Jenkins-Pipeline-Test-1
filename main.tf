@@ -9,7 +9,7 @@ terraform {
 
 provider "aws" {
   # Configuration options
-  region = "us-west-2"
+  region = "us-east-2"
 }
 
 #random suffix, s3 bucket names must be globally unique
