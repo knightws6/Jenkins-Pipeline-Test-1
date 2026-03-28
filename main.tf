@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-west-2" # or your preferred region
+}
+
 #random suffix, s3 bucket names must be globally unique
 resource "random_id" "bucket_id" {
   byte_length = 4
