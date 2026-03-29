@@ -26,3 +26,13 @@ resource "aws_s3_bucket_policy" "public_read" {
     ]
   })
 }
+
+# Set to allowing bucket being public
+resource "aws_s3_bucket_public_access_block" "allow_public" {
+  bucket = aws_s3_bucket.jenkins_test1.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
