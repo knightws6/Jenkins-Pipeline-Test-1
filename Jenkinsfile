@@ -5,7 +5,6 @@ pipeline {
         AWS_REGION = 'us-east-2'
     }
 
-    stages {
         stage('Checkout Code') {
             steps {
                 checkout scm
