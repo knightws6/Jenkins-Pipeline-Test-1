@@ -4,14 +4,14 @@ resource "random_id" "bucket_id" {
 }
 
 # S3 bucket ID
-resource "aws_s3_bucket" "jenkins_test1" {
+resource "aws_s3_bucket" "jenkins-test1" {
   bucket        = lower("jenkins-test1-${random_id.bucket_id.hex}")
   force_destroy = true
 }
 
 # Bucket public policy
 resource "aws_s3_bucket_policy" "public_read" {
-  bucket = aws_s3_bucket.jenkins_test1.id
+  bucket = aws_s3_bucket.jenkins-test1.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -21,7 +21,7 @@ resource "aws_s3_bucket_policy" "public_read" {
         Effect    = "Allow"
         Principal = "*"
         Action    = ["s3:GetObject"]
-        Resource  = "${aws_s3_bucket.jenkins_test1.arn}/*"
+        Resource  = "${aws_s3_bucket.jenkins-test1.arn}/*"
       }
     ]
   })
@@ -29,7 +29,7 @@ resource "aws_s3_bucket_policy" "public_read" {
 
 # Set to allowing bucket being public
 resource "aws_s3_bucket_public_access_block" "allow_public" {
-  bucket = aws_s3_bucket.jenkins_test1.id
+  bucket = aws_s3_bucket.jenkins-test1.id
 
   block_public_acls       = false
   block_public_policy     = false
