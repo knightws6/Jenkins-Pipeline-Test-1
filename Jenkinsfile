@@ -5,6 +5,7 @@ pipeline {
         AWS_REGION = 'us-east-2'
     }
 
+    stages {
         stage('Checkout SCM') {
             steps {
                 checkout scm
@@ -19,7 +20,6 @@ pipeline {
                 ]]) {
                     sh '''
                         aws sts get-caller-identity
-
                         terraform version
                         terraform init
                         terraform plan -out=tfplan
@@ -35,9 +35,20 @@ pipeline {
                     $class: 'AmazonWebServicesCredentialsBinding',
                     credentialsId: 'jenkins-test'
                 ]]) {
-                    sh 'terraform apply -auto-approve tfplan'
+                    sh '''
+                        terraform apply -auto-approve tfplan
+                    '''
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Terraform deployment completed successfully!'
+        }
+        failure {
+            echo 'Terraform deployment failed!'
         }
     }
 }
