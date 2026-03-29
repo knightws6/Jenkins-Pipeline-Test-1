@@ -38,3 +38,13 @@ resource "aws_s3_bucket_policy" "public_read" {
     ]
   })
 }
+
+# Upload folder of files to S3 bucket
+resource "aws_s3_object" "uploads" {
+  for_each = fileset("${path.module}/upload", "**")
+
+  bucket = aws_s3_bucket.jenkins-test1.id
+  key    = each.value
+  source = "${path.module}/upload/${each.value}"
+  etag   = filemd5("${path.module}/upload/${each.value}")
+}
