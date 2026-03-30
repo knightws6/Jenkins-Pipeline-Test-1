@@ -41,10 +41,10 @@ resource "aws_s3_bucket_policy" "public_read" {
 
 # S3 bucket file uploads
 resource "aws_s3_object" "upload_folder_files" {
-  for_each = fileset("${path.module}/s3-bucket-uploads", "**")
+  for_each = fileset("${path.module}/s3-uploads", "**")
 
   bucket = aws_s3_bucket.jenkins-test1.id
-  key    = "s3-bucket-uploads/${each.value}"
-  source = "${path.module}/s3-bucket-uploads/${each.value}"
-  etag   = filemd5("${path.module}/s3-bucket-uploads/${each.value}")
+  key    = "s3-uploads/${each.value}"
+  source = "${path.module}/s3-uploads/${each.value}"
+  etag   = filemd5("${path.module}/s3-uploads/${each.value}")
 }
